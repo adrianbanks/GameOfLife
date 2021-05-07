@@ -6,14 +6,14 @@ namespace adrianbanks.GameOfLife
     {
         internal static void Main()
         {
-            var dimension = new Dimension(20, 20);
-            // var board = KnownPatterns.Spaceships.Glider.WithNewSize(dimension);
+            var dimension = new Dimension(40, 40);
+            // var board = original.WithNewSize(dimension);
             var board = new RandomBoardGenerator().Generate(dimension);
             var renderer = new BoardRenderer();
 
-            var renderDelay = 1500;
+            var renderDelay = 1000;
 
-            while (true)
+            for (int i = 0; i < 2500; i++)
             {
                 board.Render(renderer);
                 board = board.NextIteration();

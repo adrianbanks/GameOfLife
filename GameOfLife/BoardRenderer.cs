@@ -21,10 +21,23 @@ namespace adrianbanks.GameOfLife
 
             foreach (var cell in liveCells)
             {
-                canvas.SetPixel(cell.X, cell.Y, Color.Red);
+                var color = GetColour(cell.Age);
+                canvas.SetPixel(cell.X, cell.Y, color);
             }
 
             AnsiConsole.Render(canvas);
+        }
+
+        private static Color GetColour(int age)
+        {
+            return age switch
+            {
+                0 => Color.Red1,
+                1 => Color.Red3_1,
+                2 => Color.Red3,
+                3 => Color.DarkRed_1,
+                _ => Color.DarkRed
+            };
         }
     }
 }

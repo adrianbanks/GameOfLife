@@ -20,10 +20,11 @@ namespace adrianbanks.GameOfLife
         public IEnumerable<Coordinate> NextGenerationCells()
         {
             var numberOfLiveNeighbours = SurroundingCells(center).Count(liveCells.Contains);
+            var originalCell = liveCells.SingleOrDefault(c => c.Equals(center));
 
             return numberOfLiveNeighbours switch
             {
-                2 or 3 when currentCellIsAlive => new[] { center },
+                2 or 3 when currentCellIsAlive => new[] { new Coordinate(originalCell) },
                 3 when !currentCellIsAlive => new[] { center },
                 _ => Enumerable.Empty<Coordinate>()
             };
