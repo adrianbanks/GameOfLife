@@ -9,5 +9,6 @@ namespace adrianbanks.GameOfLife.CommandLine
         public int Height { get; set; }
         public string Pattern { get; set; }
         public string BaseColor { get; set; }
+        public string BackColor { get; set; }
     }
 }

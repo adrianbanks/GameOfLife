@@ -8,13 +8,15 @@ namespace adrianbanks.GameOfLife.Rendering
     internal sealed class BoardRenderer
     {
         private readonly int delay;
+        private readonly Color backColor;
         private readonly AgedColors colors;
         private int currentDelay;
 
-        public BoardRenderer(int initialDelay, int delay, AgedColors colors)
+        public BoardRenderer(int initialDelay, int delay, Color backColor, AgedColors colors)
         {
             currentDelay = initialDelay;
             this.delay = delay;
+            this.backColor = backColor;
             this.colors = colors;
             AnsiConsole.Cursor.Show(false);
             AnsiConsole.Clear();
@@ -28,7 +30,7 @@ namespace adrianbanks.GameOfLife.Rendering
 
             foreach (var cell in AllCells(dimension))
             {
-                canvas.SetPixel(cell.X, cell.Y, Color.Grey15);
+                canvas.SetPixel(cell.X, cell.Y, backColor);
             }
 
             foreach (var cell in liveCells)

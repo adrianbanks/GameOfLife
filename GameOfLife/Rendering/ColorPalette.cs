@@ -10,19 +10,17 @@ namespace adrianbanks.GameOfLife.Rendering
     {
         private readonly string baseColor;
 
-        public ColorPalette(string baseColor) => this.baseColor = baseColor;
+        public Color BackColor { get;  }
+
+        public ColorPalette(string backColor, string baseColor)
+        {
+            BackColor = FindColor(backColor);
+            this.baseColor = baseColor;
+        }
 
         public AgedColors GetColors()
         {
-            var properties = typeof(Color).GetProperties(BindingFlags.Static | BindingFlags.Public);
-            var colorProperty = properties.FirstOrDefault(p => string.Equals(p.Name, baseColor, StringComparison.InvariantCultureIgnoreCase));
-
-            if (colorProperty == null)
-            {
-                throw new Exception($"Invalid base color: {baseColor}");
-            }
-
-            var color = (Color) colorProperty.GetValue(null);
+            var color = FindColor(baseColor);
             return new AgedColors(color);
         }
 
@@ -30,6 +28,20 @@ namespace adrianbanks.GameOfLife.Rendering
         {
             var properties = typeof(Color).GetProperties(BindingFlags.Static | BindingFlags.Public);
             return properties.Select(p => p.Name).OrderBy(n => n);
+        }
+
+        private static Color FindColor(string name)
+        {
+            var properties = typeof(Color).GetProperties(BindingFlags.Static | BindingFlags.Public);
+            var colorProperty = properties.FirstOrDefault(p => string.Equals(p.Name, name, StringComparison.InvariantCultureIgnoreCase));
+
+            if (colorProperty == null)
+            {
+                throw new Exception($"Invalid color: {name}");
+            }
+
+            var color = (Color) colorProperty.GetValue(null);
+            return color;
         }
     }
 }
