@@ -24,7 +24,7 @@ namespace adrianbanks.GameOfLife.Boards
         private static Dictionary<string, Func<Board>> GetAllPatterns(bool includeVariations = false)
         {
             var patterns = new Dictionary<string, Func<Board>>(StringComparer.InvariantCultureIgnoreCase);
-            var nestedTypes = typeof(KnownPatterns).GetNestedTypes();
+            var nestedTypes = typeof(KnownPatterns).GetNestedTypes(BindingFlags.NonPublic).Where(t => !t.Name.Contains("<"));
 
             foreach (var nestedType in nestedTypes)
             {

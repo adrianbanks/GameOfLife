@@ -8,26 +8,7 @@ namespace adrianbanks.GameOfLife
 {
     internal static class Program
     {
-        internal static int Main(string[] args) => CommandFactory.Parse(Run, OnError).Invoke(args);
-
-        private static void Run(Args args)
-        {
-            if (args.ShowPatterns)
-            {
-                var patternNames = string.Join($"{Environment.NewLine}  ", KnownPatterns.GetAllNames());
-                Console.WriteLine($"Available patterns: {patternNames}");
-                return;
-            }
-
-            if (args.ShowColors)
-            {
-                var patternNames = string.Join($"{Environment.NewLine}  ", ColorPalette.GetAllColors());
-                Console.WriteLine($"Available colors: {patternNames}");
-                return;
-            }
-
-            RunGame(args);
-        }
+        internal static int Main(string[] args) => CommandFactory.Parse(RunGame, ShowPatterns, ShowColors, OnError).Invoke(args);
 
         private static void RunGame(Args args)
         {
@@ -39,6 +20,10 @@ namespace adrianbanks.GameOfLife
             var runner = new GameRunner(board);
             runner.Run(renderer, args.Iterations);
         }
+
+        private static void ShowPatterns() => Console.WriteLine($"Available patterns: {string.Join($"{Environment.NewLine}  ", KnownPatterns.GetAllNames())}");
+
+        private static void ShowColors() => Console.WriteLine($"Available colors: {string.Join($"{Environment.NewLine}  ", ColorPalette.GetAllColors())}");
 
         private static void OnError(Exception exception) => Console.WriteLine($"An error occurred: {exception.Message}{Environment.NewLine}{exception}");
     }

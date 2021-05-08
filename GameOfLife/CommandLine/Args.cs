@@ -8,8 +8,6 @@ namespace adrianbanks.GameOfLife.CommandLine
         public int Width { get; set; }
         public int Height { get; set; }
         public string Pattern { get; set; }
-        public bool ShowPatterns { get; set; }
         public string BaseColor { get; set; }
-        public bool ShowColors { get; set; }
     }
 }
