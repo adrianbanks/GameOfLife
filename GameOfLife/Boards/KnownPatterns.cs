@@ -7,19 +7,28 @@ namespace adrianbanks.GameOfLife.Boards
 {
     internal static class KnownPatterns
     {
-        public static IEnumerable<(string category, string name)> GetAllNames()
+        public static IDictionary<string, Stack<string>> GetAllNames()
         {
+            var groupedPatterns = new Dictionary<string, Stack<string>>();
             var nestedTypes = typeof(KnownPatterns).GetNestedTypes(BindingFlags.NonPublic).Where(t => !t.Name.Contains("<"));
 
-            foreach (var patternType in nestedTypes)
+            foreach (var categoryType in nestedTypes)
             {
-                var fields = patternType.GetFields(BindingFlags.Static | BindingFlags.Public);
+                var fields = categoryType.GetFields(BindingFlags.Static | BindingFlags.Public);
 
-                foreach (var field in fields)
+                foreach (var field in fields.OrderByDescending(f => f.Name))
                 {
-                    yield return (patternType.Name, field.Name);
+                    if (!groupedPatterns.TryGetValue(categoryType.Name, out var patterns))
+                    {
+                        patterns = new Stack<string>();
+                        groupedPatterns.Add(categoryType.Name, patterns);
+                    }
+
+                    patterns.Push(field.Name);
                 }
             }
+
+            return groupedPatterns;
         }
 
         public static Board Get(string name)

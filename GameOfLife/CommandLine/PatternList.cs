@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using adrianbanks.GameOfLife.Boards;
 using Spectre.Console;
@@ -10,24 +9,25 @@ namespace adrianbanks.GameOfLife.CommandLine
     {
         public static void Show()
         {
-            var patterns = KnownPatterns.GetAllNames().ToList();
-            var categories = patterns.Select(p => p.category).Distinct().ToArray();
-            var names = patterns.Select(c => c.name).ToList();
+            var groupedPatterns = KnownPatterns.GetAllNames();
 
             var table = new Table();
-            table.AddColumns(categories);
+            table.AddColumns(groupedPatterns.Keys.ToArray());
 
-            var numberOfRows = Math.Ceiling(names.Count * 1.0f / categories.Length);
-            var rows = names.Select((name, i) => new { Name = name, Index = i })
-                .GroupBy(item => item.Index % numberOfRows, item => item.Name)
-                .Cast<IEnumerable<string>>();
+            var numberOfRows = groupedPatterns.Max(g => g.Value.Count);
 
-            foreach (var rowItems in rows)
+            for (var i = 0; i < numberOfRows; i++)
             {
-                var items = rowItems.Select(i => i).ToArray();
-                table.AddRow(items);
-            }
+                var itemsInRow = new List<string>();
 
+                foreach (var group in groupedPatterns)
+                {
+                    var patternsInCategory = group.Value;
+                    itemsInRow.Add(patternsInCategory.TryPop(out var pattern) ? pattern : string.Empty);
+                }
+
+                table.AddRow(itemsInRow.ToArray());
+            }
             AnsiConsole.Render(table);
         }
     }

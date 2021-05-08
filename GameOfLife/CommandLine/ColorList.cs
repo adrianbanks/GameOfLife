@@ -15,7 +15,7 @@ namespace adrianbanks.GameOfLife.CommandLine
             var numberOfColumns = Console.WindowWidth / maxColorLength;
 
             var numberOfRows = Math.Ceiling(colors.Count * 1.0f / numberOfColumns);
-            var rows = colors.Select((s, i) => new { Color = s, Index = i })
+            var rows = colors.Select((color, i) => new { Color = color, Index = i })
                 .GroupBy(item => item.Index % numberOfRows, item => item.Color)
                 .Cast<IEnumerable<string>>();
 
