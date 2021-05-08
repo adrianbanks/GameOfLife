@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace adrianbanks.GameOfLife
+namespace adrianbanks.GameOfLife.Boards
 {
-    internal sealed class RandomBoardGenerator
+    internal sealed class RandomBoard
     {
         private readonly Random random;
 
-        public RandomBoardGenerator() => random = new Random(DateTime.UtcNow.Millisecond);
+        public RandomBoard() => random = new Random(DateTime.UtcNow.Millisecond);
 
         public Board Generate(Dimension dimension)
         {

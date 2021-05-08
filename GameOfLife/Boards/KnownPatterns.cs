@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace adrianbanks.GameOfLife
+namespace adrianbanks.GameOfLife.Boards
 {
     internal static class KnownPatterns
     {

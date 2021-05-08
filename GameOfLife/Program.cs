@@ -1,4 +1,6 @@
 ﻿using System.Threading;
+using adrianbanks.GameOfLife.Boards;
+using adrianbanks.GameOfLife.Rendering;
 
 namespace adrianbanks.GameOfLife
 {
@@ -8,7 +10,7 @@ namespace adrianbanks.GameOfLife
         {
             var dimension = new Dimension(40, 40);
             // var board = original.WithNewSize(dimension);
-            var board = new RandomBoardGenerator().Generate(dimension);
+            var board = new RandomBoard().Generate(dimension);
             var renderer = new BoardRenderer();
 
             var renderDelay = 1000;

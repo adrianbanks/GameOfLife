@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using adrianbanks.GameOfLife.Rendering;
 using static adrianbanks.GameOfLife.GridNavigation;
 
 namespace adrianbanks.GameOfLife

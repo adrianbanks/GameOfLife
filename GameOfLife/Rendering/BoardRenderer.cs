@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Spectre.Console;
 using static adrianbanks.GameOfLife.GridNavigation;
 
-namespace adrianbanks.GameOfLife
+namespace adrianbanks.GameOfLife.Rendering
 {
     internal sealed class BoardRenderer
     {
