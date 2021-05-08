@@ -26,6 +26,8 @@ namespace adrianbanks.GameOfLife.CommandLine
                 .AddOption(new Option<int>(new[] { "--delay", "-d" }, () => 200, "The delay between each iteration (in milliseconds)"))
                 .AddOption(new Option<string>(new[] { "--pattern", "-p" }, "Generates a starting point using a known pattern"))
                 .AddOption(new Option<bool>(new[] { "--show-patterns", "-sp" }, "Shows the available known patterns"))
+                .AddOption(new Option<string>(new[] { "--base-color", "-c" }, () => "Red1", "Sets the base color to use for rendering"))
+                .AddOption(new Option<bool>(new[] { "--show-colors", "-sc" }, "Shows the available base colors to use for rendering"))
                 .UseDefaults()
                 .UseExceptionHandler((e, _) => errorCallback(e))
                 .Build();

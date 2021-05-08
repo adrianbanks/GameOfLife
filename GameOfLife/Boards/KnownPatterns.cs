@@ -7,7 +7,7 @@ namespace adrianbanks.GameOfLife.Boards
 {
     internal static class KnownPatterns
     {
-        public static IEnumerable<string> GetAllNames() => GetAllPatterns().Select(p => p.Key);
+        public static IEnumerable<string> GetAllNames() => GetAllPatterns().Select(p => p.Key).OrderBy(n => n);
 
         public static Board Get(string name)
         {

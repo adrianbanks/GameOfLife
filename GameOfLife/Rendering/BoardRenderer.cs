@@ -11,14 +11,13 @@ namespace adrianbanks.GameOfLife.Rendering
         private readonly AgedColors colors;
         private int currentDelay;
 
-        public BoardRenderer(int initialDelay, int delay)
+        public BoardRenderer(int initialDelay, int delay, AgedColors colors)
         {
             currentDelay = initialDelay;
             this.delay = delay;
+            this.colors = colors;
             AnsiConsole.Cursor.Show(false);
             AnsiConsole.Clear();
-
-            colors = new AgedColors(Color.Red1);
         }
 
         public void Render(Dimension dimension, IEnumerable<Coordinate> liveCells)
