@@ -7,11 +7,24 @@ namespace adrianbanks.GameOfLife.Boards
 {
     internal static class KnownPatterns
     {
-        public static IEnumerable<string> GetAllNames() => GetAllPatterns().Select(p => p.Key).OrderBy(n => n);
+        public static IEnumerable<(string category, string name)> GetAllNames()
+        {
+            var nestedTypes = typeof(KnownPatterns).GetNestedTypes(BindingFlags.NonPublic).Where(t => !t.Name.Contains("<"));
+
+            foreach (var patternType in nestedTypes)
+            {
+                var fields = patternType.GetFields(BindingFlags.Static | BindingFlags.Public);
+
+                foreach (var field in fields)
+                {
+                    yield return (patternType.Name, field.Name);
+                }
+            }
+        }
 
         public static Board Get(string name)
         {
-            var patterns = GetAllPatterns(true);
+            var patterns = GetAllPatterns();
 
             if (patterns.TryGetValue(name, out var pattern))
             {
@@ -21,7 +34,7 @@ namespace adrianbanks.GameOfLife.Boards
             throw new Exception($"Invalid pattern: '{name}'");
         }
 
-        private static Dictionary<string, Func<Board>> GetAllPatterns(bool includeVariations = false)
+        private static Dictionary<string, Func<Board>> GetAllPatterns()
         {
             var patterns = new Dictionary<string, Func<Board>>(StringComparer.InvariantCultureIgnoreCase);
             var nestedTypes = typeof(KnownPatterns).GetNestedTypes(BindingFlags.NonPublic).Where(t => !t.Name.Contains("<"));
@@ -34,12 +47,7 @@ namespace adrianbanks.GameOfLife.Boards
                 {
                     var pattern = field.Name;
                     Board GetBoard() => (Board) field.GetValue(null);
-
-                    if (includeVariations)
-                    {
-                        patterns.Add(pattern, GetBoard);
-                    }
-
+                    patterns.Add(pattern, GetBoard);
                     patterns.Add($"{nestedType.Name}.{pattern}", GetBoard);
                 }
             }
