@@ -4,11 +4,11 @@ using System.CommandLine.Builder;
 using System.CommandLine.Invocation;
 using System.CommandLine.Parsing;
 
-namespace adrianbanks.GameOfLife
+namespace adrianbanks.GameOfLife.CommandLine
 {
-    internal static class CommandLine
+    internal static class CommandFactory
     {
-        public static Parser Pars(Action<Args> runCallback, Action<Exception> errorCallback)
+        public static Parser Parse(Action<Args> runCallback, Action<Exception> errorCallback)
         {
             var rootCommand = new RootCommand
             {

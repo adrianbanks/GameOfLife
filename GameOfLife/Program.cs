@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CommandLine.Parsing;
 using adrianbanks.GameOfLife.Boards;
+using adrianbanks.GameOfLife.CommandLine;
 using adrianbanks.GameOfLife.Rendering;
 
 namespace adrianbanks.GameOfLife
@@ -9,7 +10,7 @@ namespace adrianbanks.GameOfLife
     {
         internal static int Main(string[] args)
         {
-            var parser = CommandLine.Pars(Run, OnError);
+            var parser = CommandFactory.Parse(Run, OnError);
             return parser.Invoke(args);
         }
 
