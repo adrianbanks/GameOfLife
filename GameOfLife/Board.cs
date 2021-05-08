@@ -32,7 +32,7 @@ namespace adrianbanks.GameOfLife
 
         public void Render(BoardRenderer renderer)
         {
-            var cellsWithinBounds = liveCells.Where(dimension.ContainedIn);
+            var cellsWithinBounds = liveCells.Where(dimension.Contains);
             renderer.Render(dimension, cellsWithinBounds);
         }
 
