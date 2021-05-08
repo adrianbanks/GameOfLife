@@ -1,30 +1,53 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace adrianbanks.GameOfLife.Boards
 {
     internal static class KnownPatterns
     {
-        public static IEnumerable<Board> All()
+        public static IEnumerable<string> GetAllNames() => GetAllPatterns().Select(p => p.Key);
+
+        public static Board Get(string name)
         {
-            yield return StillLifes.Block;
-            yield return StillLifes.BeeHive;
-            yield return StillLifes.Loaf;
-            yield return StillLifes.Boat;
-            yield return StillLifes.Tub;
+            var patterns = GetAllPatterns(true);
 
-            yield return Oscillators.Blinker;
-            yield return Oscillators.Toad;
-            yield return Oscillators.Beacon;
-            yield return Oscillators.Pulsar;
-            yield return Oscillators.PentaDecathlon;
+            if (patterns.TryGetValue(name, out var pattern))
+            {
+                return pattern();
+            }
 
-            yield return Spaceships.Glider;
-            yield return Spaceships.Lightweight;
-            yield return Spaceships.Middleweight;
-            yield return Spaceships.Heavyweight;
+            throw new Exception($"Invalid pattern: '{name}'");
         }
 
-        public static class StillLifes
+        private static Dictionary<string, Func<Board>> GetAllPatterns(bool includeVariations = false)
+        {
+            var patterns = new Dictionary<string, Func<Board>>(StringComparer.InvariantCultureIgnoreCase);
+            var nestedTypes = typeof(KnownPatterns).GetNestedTypes();
+
+            foreach (var nestedType in nestedTypes)
+            {
+                var fields = nestedType.GetFields(BindingFlags.Static | BindingFlags.Public);
+
+                foreach (var field in fields)
+                {
+                    var pattern = field.Name;
+                    Board GetBoard() => (Board) field.GetValue(null);
+
+                    if (includeVariations)
+                    {
+                        patterns.Add(pattern, GetBoard);
+                    }
+
+                    patterns.Add($"{nestedType.Name}.{pattern}", GetBoard);
+                }
+            }
+
+            return patterns;
+        }
+
+        private static class StillLifes
         {
             public static readonly Board Block = new(
                 new Dimension(4, 4),
@@ -73,7 +96,7 @@ namespace adrianbanks.GameOfLife.Boards
             );
         }
 
-        public static class Oscillators
+        private static class Oscillators
         {
             public static Board Blinker = new(
                 new Dimension(5, 5),
@@ -177,7 +200,7 @@ namespace adrianbanks.GameOfLife.Boards
             );
         }
 
-        public static class Spaceships
+        private static class Spaceships
         {
             public static readonly Board Glider = new(
                 new Dimension(5, 5),

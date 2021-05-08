@@ -6,4 +6,5 @@ internal sealed class Args
     public int Width { get; set; }
     public int Height { get; set; }
     public string Pattern { get; set; }
+    public bool ShowPatterns { get; set; }
 }
