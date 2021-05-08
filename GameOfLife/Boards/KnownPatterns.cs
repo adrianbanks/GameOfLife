@@ -273,5 +273,48 @@ namespace adrianbanks.GameOfLife.Boards
                 new Coordinate(8, 5)
             );
         }
+
+        private static class Guns
+        {
+            public static readonly Board GosperGliderGun = new(
+                new Dimension(38, 11),
+                new Coordinate(26, 1),
+                new Coordinate(24, 2),
+                new Coordinate(26, 2),
+                new Coordinate(14, 3),
+                new Coordinate(15, 3),
+                new Coordinate(22, 3),
+                new Coordinate(23, 3),
+                new Coordinate(36, 3),
+                new Coordinate(37, 3),
+                new Coordinate(13, 4),
+                new Coordinate(17, 4),
+                new Coordinate(22, 4),
+                new Coordinate(23, 4),
+                new Coordinate(36, 4),
+                new Coordinate(37, 4),
+                new Coordinate(2, 5),
+                new Coordinate(3, 5),
+                new Coordinate(12, 5),
+                new Coordinate(18, 5),
+                new Coordinate(22, 5),
+                new Coordinate(23, 5),
+                new Coordinate(2, 6),
+                new Coordinate(3, 6),
+                new Coordinate(12, 6),
+                new Coordinate(16, 6),
+                new Coordinate(18, 6),
+                new Coordinate(19, 6),
+                new Coordinate(24, 6),
+                new Coordinate(26, 6),
+                new Coordinate(12, 7),
+                new Coordinate(18, 7),
+                new Coordinate(26, 7),
+                new Coordinate(13, 8),
+                new Coordinate(17, 8),
+                new Coordinate(14, 9),
+                new Coordinate(15, 9)
+            );
+        }
     }
 }
