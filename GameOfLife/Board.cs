@@ -36,6 +36,10 @@ namespace adrianbanks.GameOfLife
             renderer.Render(dimension, cellsWithinBounds);
         }
 
-        public Board WithNewSize(Dimension size) => new(size, liveCells.ToArray());
+        public Board WithNewSize(int? width, int? height)
+        {
+            var size = Dimension.Create(dimension, width, height);
+            return new(size, liveCells.ToArray());
+        }
     }
 }

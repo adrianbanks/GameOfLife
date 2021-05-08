@@ -6,15 +6,17 @@
 
         public BoardFactory(string pattern) => this.pattern = pattern;
 
-        public Board Create(Dimension dimension)
+        public Board Create(int? width, int? height)
         {
+            var dimension = Dimension.Create(width, height);
+
             if (pattern == null)
             {
                 return new RandomBoard().Generate(dimension);
             }
 
             var board = KnownPatterns.Get(pattern);
-            return board.WithNewSize(dimension);
+            return board.WithNewSize(width, height);
         }
     }
 }

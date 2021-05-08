@@ -33,8 +33,8 @@ namespace adrianbanks.GameOfLife.CommandLine
             rootCommand.AddCommand(showColorsCommand);
 
             return new CommandLineBuilder(rootCommand)
-                .AddOption(new Option<int>(new[] { "--width", "-w" }, () => 20, "The width of the grid"))
-                .AddOption(new Option<int>(new[] { "--height", "-h" }, () => 20, "The height of the grid"))
+                .AddOption(new Option<int?>(new[] { "--width", "-w" }, "The width of the grid"))
+                .AddOption(new Option<int?>(new[] { "--height", "-h" }, "The height of the grid"))
                 .AddOption(new Option<int>(new[] { "--iterations", "-i" }, () => 100, "The number of iterations to perform"))
                 .AddOption(new Option<int>(new[] { "--initial-delay", "-id" }, () => 1000, "The delay for which the first iteration will be shown (in milliseconds)"))
                 .AddOption(new Option<int>(new[] { "--delay", "-d" }, () => 200, "The delay between each iteration (in milliseconds)"))

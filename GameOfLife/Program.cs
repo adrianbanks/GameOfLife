@@ -12,8 +12,7 @@ namespace adrianbanks.GameOfLife
 
         private static void RunGame(Args args)
         {
-            var dimension = new Dimension(args.Width, args.Height);
-            var board = new BoardFactory(args.Pattern).Create(dimension);
+            var board = new BoardFactory(args.Pattern).Create(args.Width, args.Height);
             var colorPalette = new ColorPalette(args.BackColor, args.BaseColor);
             var renderer = new BoardRenderer(args.InitialDelay, args.Delay, colorPalette.BackColor, colorPalette.GetColors());
 

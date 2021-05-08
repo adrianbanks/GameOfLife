@@ -5,8 +5,8 @@ namespace adrianbanks.GameOfLife.CommandLine
         public int Iterations { get; set; }
         public int InitialDelay { get; set; }
         public int Delay { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
+        public int? Width { get; set; }
+        public int? Height { get; set; }
         public string Pattern { get; set; }
         public string BaseColor { get; set; }
         public string BackColor { get; set; }
