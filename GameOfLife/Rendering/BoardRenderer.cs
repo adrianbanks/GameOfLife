@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading;
 using Spectre.Console;
 using static adrianbanks.GameOfLife.GridNavigation;
 
@@ -6,7 +7,16 @@ namespace adrianbanks.GameOfLife.Rendering
 {
     internal sealed class BoardRenderer
     {
-        public BoardRenderer() => AnsiConsole.Cursor.Show(false);
+        private readonly int delay;
+        private int currentDelay;
+
+        public BoardRenderer(int initialDelay, int delay)
+        {
+            currentDelay = initialDelay;
+            this.delay = delay;
+            AnsiConsole.Cursor.Show(false);
+            AnsiConsole.Clear();
+        }
 
         public void Render(Dimension dimension, IEnumerable<Coordinate> liveCells)
         {
@@ -26,6 +36,8 @@ namespace adrianbanks.GameOfLife.Rendering
             }
 
             AnsiConsole.Render(canvas);
+            Thread.Sleep(currentDelay);
+            currentDelay = delay;
         }
 
         private static Color GetColour(int age)

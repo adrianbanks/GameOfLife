@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.CommandLine.Parsing;
 using adrianbanks.GameOfLife.Boards;
 using adrianbanks.GameOfLife.Rendering;
 
@@ -6,22 +7,39 @@ namespace adrianbanks.GameOfLife
 {
     internal static class Program
     {
-        internal static void Main()
+        internal static int Main(string[] args)
         {
-            var dimension = new Dimension(40, 40);
-            // var board = original.WithNewSize(dimension);
-            var board = new RandomBoard().Generate(dimension);
-            var renderer = new BoardRenderer();
+            var parser = CommandLine.Pars(Run, OnError);
+            return parser.Invoke(args);
+        }
 
-            var renderDelay = 1000;
+        private static void Run(Args args)
+        {
+            var dimension = new Dimension(args.Width, args.Height);
+            Board board;
 
-            for (int i = 0; i < 2500; i++)
+            if (args.Pattern == null)
+            {
+                board = new RandomBoard().Generate(dimension);
+            }
+            else
+            {
+                board = KnownPatterns.Oscillators.Beacon;
+                board = board.WithNewSize(dimension);
+            }
+
+            var renderer = new BoardRenderer(args.InitialDelay, args.Delay);
+
+            for (var i = 0; i < args.Iterations; i++)
             {
                 board.Render(renderer);
                 board = board.NextIteration();
-                Thread.Sleep(renderDelay);
-                renderDelay = 200;
             }
+        }
+
+        private static void OnError(Exception exception)
+        {
+            Console.WriteLine(exception);
         }
     }
 }
