@@ -8,11 +8,7 @@ namespace adrianbanks.GameOfLife
 {
     internal static class Program
     {
-        internal static int Main(string[] args)
-        {
-            var parser = CommandFactory.Parse(Run, OnError);
-            return parser.Invoke(args);
-        }
+        internal static int Main(string[] args) => CommandFactory.Parse(Run, OnError).Invoke(args);
 
         private static void Run(Args args)
         {
@@ -32,15 +28,10 @@ namespace adrianbanks.GameOfLife
             var board = new BoardFactory(args.Pattern).Create(dimension);
             var renderer = new BoardRenderer(args.InitialDelay, args.Delay);
 
-            for (var i = 0; i < args.Iterations; i++)
-            {
-                board.Render(renderer);
-                board = board.NextIteration();
-            }        }
-
-        private static void OnError(Exception exception)
-        {
-            Console.WriteLine(exception);
+            var runner = new GameRunner(board);
+            runner.Run(renderer, args.Iterations);
         }
+
+        private static void OnError(Exception exception) => Console.WriteLine($"An error occurred: {exception.Message}{Environment.NewLine}{exception}");
     }
 }
