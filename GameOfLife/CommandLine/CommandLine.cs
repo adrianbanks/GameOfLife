@@ -13,7 +13,7 @@ namespace adrianbanks.GameOfLife.CommandLine
             var rootCommand = new RootCommand
             {
                 Name = "game-of-life",
-                Description = "TODO",
+                Description = "Conway's Game of Life",
                 TreatUnmatchedTokensAsErrors = true,
                 Handler = CommandHandler.Create(runGame),
             };
