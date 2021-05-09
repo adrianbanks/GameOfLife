@@ -14,9 +14,24 @@ namespace adrianbanks.GameOfLife.CommandLine
             {
                 Name = "game-of-life",
                 Description = "Conway's Game of Life",
+                TreatUnmatchedTokensAsErrors = true
+            };
+
+            var runCommand = new Command("run", "Runs the game")
+            {
                 TreatUnmatchedTokensAsErrors = true,
                 Handler = CommandHandler.Create(runGame)
             };
+            runCommand.AddOption(new Option<int?>(new[] { "--width", "-w" }, "The width of the grid"));
+            runCommand.AddOption(new Option<int?>(new[] { "--height", "-h" }, "The height of the grid"));
+            runCommand.AddOption(new Option<int>(new[] { "--iterations", "-i" }, () => 100, "The number of iterations to perform"));
+            runCommand.AddOption(new Option<int>(new[] { "--initial-delay", "-id" }, () => 1000, "The delay for which the first iteration will be shown (in milliseconds)"));
+            runCommand.AddOption(new Option<int>(new[] { "--delay", "-d" }, () => 200, "The delay between each iteration (in milliseconds)"));
+            runCommand.AddOption(new Option<string>(new[] { "--pattern", "-p" }, "Generates a starting point using a known pattern"));
+            runCommand.AddOption(new Option<string>(new[] { "--back-color", "-b" }, () => "Grey15", "Sets the background color to use for rendering"));
+            runCommand.AddOption(new Option<string>(new[] { "--base-color", "-c" }, () => "Red1", "Sets the base color to use for rendering"));
+            runCommand.AddOption(new Option<string>(new[] { "--qr-code", "-q" }, "The file path of an image containing a QR code"));
+            rootCommand.Add(runCommand);
 
             var showPatternsCommand = new Command("show-patterns", "Shows the available known patterns")
             {
@@ -33,15 +48,6 @@ namespace adrianbanks.GameOfLife.CommandLine
             rootCommand.AddCommand(showColorsCommand);
 
             return new CommandLineBuilder(rootCommand)
-                .AddOption(new Option<int?>(new[] { "--width", "-w" }, "The width of the grid"))
-                .AddOption(new Option<int?>(new[] { "--height", "-h" }, "The height of the grid"))
-                .AddOption(new Option<int>(new[] { "--iterations", "-i" }, () => 100, "The number of iterations to perform"))
-                .AddOption(new Option<int>(new[] { "--initial-delay", "-id" }, () => 1000, "The delay for which the first iteration will be shown (in milliseconds)"))
-                .AddOption(new Option<int>(new[] { "--delay", "-d" }, () => 200, "The delay between each iteration (in milliseconds)"))
-                .AddOption(new Option<string>(new[] { "--pattern", "-p" }, "Generates a starting point using a known pattern"))
-                .AddOption(new Option<string>(new[] { "--back-color", "-b" }, () => "Grey15", "Sets the background color to use for rendering"))
-                .AddOption(new Option<string>(new[] { "--base-color", "-c" }, () => "Red1", "Sets the base color to use for rendering"))
-                .AddOption(new Option<string>(new[] { "--qr-code", "-q" }, "The file path of an image containing a QR code"))
                 .UseDefaults()
                 .UseExceptionHandler((e, _) => errorCallback(e))
                 .Build();
