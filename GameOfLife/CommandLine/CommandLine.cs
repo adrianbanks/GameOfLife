@@ -39,9 +39,9 @@ namespace adrianbanks.GameOfLife.CommandLine
                 .AddOption(new Option<int>(new[] { "--initial-delay", "-id" }, () => 1000, "The delay for which the first iteration will be shown (in milliseconds)"))
                 .AddOption(new Option<int>(new[] { "--delay", "-d" }, () => 200, "The delay between each iteration (in milliseconds)"))
                 .AddOption(new Option<string>(new[] { "--pattern", "-p" }, "Generates a starting point using a known pattern"))
-                .AddOption(new Option<string>(new[] { "--back-color", "-b" }, () => "Grey15", "Sets the backgroun color to use for rendering"))
+                .AddOption(new Option<string>(new[] { "--back-color", "-b" }, () => "Grey15", "Sets the background color to use for rendering"))
                 .AddOption(new Option<string>(new[] { "--base-color", "-c" }, () => "Red1", "Sets the base color to use for rendering"))
-                .AddOption(new Option<string>(new[] { "--qr-code", "-q" }, "The file path of and image containing a QR code"))
+                .AddOption(new Option<string>(new[] { "--qr-code", "-q" }, "The file path of an image containing a QR code"))
                 .UseDefaults()
                 .UseExceptionHandler((e, _) => errorCallback(e))
                 .Build();
