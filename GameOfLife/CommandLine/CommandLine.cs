@@ -15,20 +15,20 @@ namespace adrianbanks.GameOfLife.CommandLine
                 Name = "game-of-life",
                 Description = "Conway's Game of Life",
                 TreatUnmatchedTokensAsErrors = true,
-                Handler = CommandHandler.Create(runGame),
+                Handler = CommandHandler.Create(runGame)
             };
 
             var showPatternsCommand = new Command("show-patterns", "Shows the available known patterns")
             {
                 TreatUnmatchedTokensAsErrors = true,
-                Handler = CommandHandler.Create(showPatterns),
+                Handler = CommandHandler.Create(showPatterns)
             };
             rootCommand.AddCommand(showPatternsCommand);
 
             var showColorsCommand = new Command("show-colors", "Shows the available base colors to use for rendering")
             {
                 TreatUnmatchedTokensAsErrors = true,
-                Handler = CommandHandler.Create(showColors),
+                Handler = CommandHandler.Create(showColors)
             };
             rootCommand.AddCommand(showColorsCommand);
 
@@ -41,6 +41,7 @@ namespace adrianbanks.GameOfLife.CommandLine
                 .AddOption(new Option<string>(new[] { "--pattern", "-p" }, "Generates a starting point using a known pattern"))
                 .AddOption(new Option<string>(new[] { "--back-color", "-b" }, () => "Grey15", "Sets the backgroun color to use for rendering"))
                 .AddOption(new Option<string>(new[] { "--base-color", "-c" }, () => "Red1", "Sets the base color to use for rendering"))
+                .AddOption(new Option<string>(new[] { "--qr-code", "-q" }, "The file path of and image containing a QR code"))
                 .UseDefaults()
                 .UseExceptionHandler((e, _) => errorCallback(e))
                 .Build();
