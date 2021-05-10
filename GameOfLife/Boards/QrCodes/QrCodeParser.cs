@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.IO;
 using ZXing;
 using ZXing.Common;
 
-namespace adrianbanks.GameOfLife.Boards
+namespace adrianbanks.GameOfLife.Boards.QrCodes
 {
     internal sealed class QrCodeParser
     {
@@ -14,23 +13,10 @@ namespace adrianbanks.GameOfLife.Boards
             using var image = new Bitmap(stream);
 
             var matrix = GetCellMatrix(image);
-            var liveCells = new List<Coordinate>();
-
-            for (var x = 0; x < matrix.Width; x++)
-            for (var y = 0; y < matrix.Height; y++)
-            {
-                if (matrix[x, y])
-                {
-                    liveCells.Add(new Coordinate(x, y));
-                }
-            }
-
-            var boardSize = new Dimension(matrix.Width, matrix.Height);
-            var board = new Board(boardSize, liveCells.ToArray());
-            return board;
+            return MatrixToBoardConverter.Convert(matrix);
         }
 
-        private static BitMatrix GetCellMatrix(Bitmap image)
+        public static BitMatrix GetCellMatrix(Bitmap image)
         {
             var luminanceSource = new BitmapLuminanceSource(image);
             var binarizer = new HybridBinarizer(luminanceSource);
