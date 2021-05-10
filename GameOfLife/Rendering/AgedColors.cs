@@ -13,7 +13,7 @@ namespace adrianbanks.GameOfLife.Rendering
         public AgedColors(Color baseColor)
         {
             const float factor = 0.25f;
-            var toBlend = Color.Black;
+            var toBlend = GetBlendColor(baseColor);
 
             generation0 = baseColor;
             generation1 = generation0.Blend(toBlend, factor);
@@ -21,6 +21,8 @@ namespace adrianbanks.GameOfLife.Rendering
             generation3 = generation2.Blend(toBlend, factor);
             generationOld = generation3.Blend(toBlend, factor);
         }
+
+        private Color GetBlendColor(Color baseColor) =>     baseColor.R <= 112 && baseColor.G <= 112 && baseColor.B <= 112 ? Color.White : Color.Black;
 
         public Color GetColor(int generation)
         {
