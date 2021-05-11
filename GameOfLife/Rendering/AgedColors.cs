@@ -22,7 +22,7 @@ namespace adrianbanks.GameOfLife.Rendering
             generationOld = generation3.Blend(toBlend, factor);
         }
 
-        private Color GetBlendColor(Color baseColor) =>     baseColor.R <= 112 && baseColor.G <= 112 && baseColor.B <= 112 ? Color.White : Color.Black;
+        private Color GetBlendColor(Color baseColor) => baseColor.R <= 112 && baseColor.G <= 112 && baseColor.B <= 112 ? Color.White : Color.Black;
 
         public Color GetColor(int generation)
         {
