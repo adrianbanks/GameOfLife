@@ -8,7 +8,7 @@ namespace adrianbanks.GameOfLife.CommandLine
 {
     internal static class CommandFactory
     {
-        public static Parser Parse(Action<Args> runGame, Action showPatterns, Action showColors, Action<Exception> errorCallback)
+        public static Parser Parse(Action<Args> runGame, Action showPatterns, Action showColors, Action<Exception, bool> errorCallback)
         {
             var rootCommand = new RootCommand
             {
@@ -49,7 +49,11 @@ namespace adrianbanks.GameOfLife.CommandLine
 
             return new CommandLineBuilder(rootCommand)
                 .UseDefaults()
-                .UseExceptionHandler((e, _) => errorCallback(e))
+                .UseExceptionHandler((e, context) =>
+                {
+                    var showStackTrace = context.ParseResult.Directives.Contains("stacktrace");
+                    errorCallback(e, showStackTrace);
+                })
                 .Build();
         }
     }

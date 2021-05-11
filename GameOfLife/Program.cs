@@ -22,6 +22,16 @@ namespace adrianbanks.GameOfLife
             runner.Run(renderer, args.Iterations);
         }
 
-        private static void OnError(Exception exception) => AnsiConsole.Console.WriteLine(exception.GetBaseException().Message, new Style(Color.Red, Color.Default, Decoration.Bold));
+        private static void OnError(Exception exception, bool showStackTrace)
+        {
+            if (showStackTrace)
+            {
+                AnsiConsole.WriteException(exception.GetBaseException(), ExceptionFormats.ShortenEverything);
+            }
+            else
+            {
+                AnsiConsole.Console.WriteLine(exception.GetBaseException().Message, new Style(Color.Red, Color.Default, Decoration.Bold));
+            }
+        }
     }
 }
