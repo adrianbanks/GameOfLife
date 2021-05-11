@@ -37,5 +37,7 @@ namespace adrianbanks.GameOfLife
 
             return x.X == y.X && x.Y == y.Y;
         }
+
+        public override string ToString() => $"({X}, {Y})";
     }
 }
