@@ -37,7 +37,13 @@ The initial iteration can be seeded using a [QR code](https://en.wikipedia.org/w
 A QR code in an image file can be used:
 
 ```shell
-game-of-life.exe run --qr-code [qr code image path]
+game-of-life.exe run --qr-code [path of qr code image]
+```
+
+Alternatively, the url of a QR code in an image can be used:
+
+```shell
+game-of-life.exe run --qr-code [url of qr code image]
 ```
 
 ### Generating a QR code

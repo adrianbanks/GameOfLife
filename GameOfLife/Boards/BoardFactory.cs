@@ -31,9 +31,17 @@ namespace adrianbanks.GameOfLife.Boards
 
             if (pattern == null && qrCode != null)
             {
+                if (qrCode.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    using var image = new UrlImageLoader().Load(qrCode);
+                    var board = new QrCodeParser().Parse(qrCode, image);
+                    return board.WithNewSize(width, height);
+                }
+
                 if (File.Exists(qrCode))
                 {
-                    var board = new QrCodeParser().Parse(qrCode);
+                    using var image = new FileImageLoader().Load(qrCode);
+                    var board = new QrCodeParser().Parse(qrCode, image);
                     return board.WithNewSize(width, height);
                 }
 
