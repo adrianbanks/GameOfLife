@@ -25,7 +25,7 @@ namespace adrianbanks.GameOfLife.CommandLine
             runCommand.AddOption(new Option<int?>(new[] { "--width", "-w" }, "The width of the grid"));
             runCommand.AddOption(new Option<int?>(new[] { "--height", "-h" }, "The height of the grid"));
             runCommand.AddOption(new Option<int>(new[] { "--iterations", "-i" }, () => 100, "The number of iterations to perform"));
-            runCommand.AddOption(new Option<int>(new[] { "--initial-delay", "-id" }, () => 1000, "The delay for which the first iteration will be shown (in milliseconds)"));
+            runCommand.AddOption(new Option<int>(new[] { "--initial-delay", "-id" }, () => 1000, "The delay for which the first iteration is shown (in milliseconds)"));
             runCommand.AddOption(new Option<int>(new[] { "--delay", "-d" }, () => 200, "The delay between each iteration (in milliseconds)"));
             runCommand.AddOption(new Option<string>(new[] { "--back-color", "-b" }, () => "Grey15", "Sets the background color to use for rendering"));
             runCommand.AddOption(new Option<string>(new[] { "--base-color", "-c" }, () => "Red1", "Sets the base color to use for rendering"));
