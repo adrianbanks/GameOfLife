@@ -17,10 +17,9 @@ namespace adrianbanks.GameOfLife.Boards
 
         public Board Create(int? width, int? height)
         {
-            var dimension = Dimension.Create(width, height);
-
             if (pattern == null && qrCode == null)
             {
+                var dimension = Dimension.Create(width, height);
                 return new RandomBoard().Generate(dimension);
             }
 

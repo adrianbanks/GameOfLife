@@ -5,7 +5,12 @@ using static adrianbanks.GameOfLife.GridNavigation;
 
 namespace adrianbanks.GameOfLife.Rendering
 {
-    internal sealed class BoardRenderer
+    internal interface IBoardRenderer
+    {
+        void Render(Dimension dimension, IEnumerable<Coordinate> liveCells);
+    }
+
+    internal sealed class BoardRenderer : IBoardRenderer
     {
         private readonly int delay;
         private readonly Color backColor;

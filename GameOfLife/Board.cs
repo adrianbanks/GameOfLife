@@ -30,7 +30,7 @@ namespace adrianbanks.GameOfLife
             return new Board(dimension, nextGeneration.ToArray());
         }
 
-        public void Render(BoardRenderer renderer)
+        public void Render(IBoardRenderer renderer)
         {
             var cellsWithinBounds = liveCells.Where(dimension.Contains);
             renderer.Render(dimension, cellsWithinBounds);
