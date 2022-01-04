@@ -44,7 +44,7 @@ namespace adrianbanks.GameOfLife.Rendering
                 canvas.SetPixel(cell.X, cell.Y, color);
             }
 
-            AnsiConsole.Render(canvas);
+            AnsiConsole.Write(canvas);
             Thread.Sleep(currentDelay);
             currentDelay = delay;
         }

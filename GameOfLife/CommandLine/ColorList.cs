@@ -33,7 +33,7 @@ namespace adrianbanks.GameOfLife.CommandLine
                 table.AddRow(coloursInRow);
             }
 
-            AnsiConsole.Render(table);
+            AnsiConsole.Write(table);
         }
     }
 }

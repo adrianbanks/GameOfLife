@@ -28,7 +28,8 @@ namespace adrianbanks.GameOfLife.CommandLine
 
                 table.AddRow(itemsInRow.ToArray());
             }
-            AnsiConsole.Render(table);
+
+            AnsiConsole.Write(table);
         }
     }
 }
