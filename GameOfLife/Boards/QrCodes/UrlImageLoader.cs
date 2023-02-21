@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 using System.IO;
-using System.Net;
+using System.Net.Http;
 
 namespace adrianbanks.GameOfLife.Boards.QrCodes
 {
@@ -8,8 +8,8 @@ namespace adrianbanks.GameOfLife.Boards.QrCodes
     {
         public Bitmap Load(string url)
         {
-            using var client = new WebClient();
-            var bytes = client.DownloadData(url);
+            using var client = new HttpClient();
+            var bytes = client.GetByteArrayAsync(url).GetAwaiter().GetResult();
             var stream = new MemoryStream(bytes);
             return new Bitmap(stream);
         }
