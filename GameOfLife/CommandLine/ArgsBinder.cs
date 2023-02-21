@@ -13,7 +13,7 @@ namespace adrianbanks.GameOfLife.CommandLine
         private readonly Option<string> backColor = new(new[] {"--back-color", "-b"}, () => Defaults.BackColor, "Sets the background color to use for rendering");
         private readonly Option<string> baseColor = new(new[] {"--base-color", "-c"}, () => Defaults.BaseColor, "Sets the base color to use for rendering");
         private readonly Option<string> pattern = new(new[] {"--pattern", "-p"}, "Generates a starting point using a known pattern");
-        private readonly Option<string> qrCode = new(new[] {"--qr-code", "-q"}, "The file path of an image containing a QR code");
+        private readonly Option<string> qrCode = new(new[] {"--qr-code", "-q"}, "The file path/url of an image containing a QR code");
 
         protected override Args GetBoundValue(BindingContext bindingContext) =>
             new()
