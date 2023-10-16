@@ -79,7 +79,7 @@ namespace adrianbanks.GameOfLife.CommandLine
             var selectionPrompt = new SelectionPrompt<string>()
                 .Title(prompt)
                 .PageSize(10)
-                .MoreChoicesText("[grey](Move up and down to reveal more fruits)[/]");
+                .MoreChoicesText("[grey](Move up and down to reveal more colors)[/]");
 
             foreach (var color in ColorPalette.GetAllColors())
             {
