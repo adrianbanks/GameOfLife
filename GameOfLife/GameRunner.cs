@@ -2,12 +2,8 @@
 
 namespace adrianbanks.GameOfLife;
 
-internal sealed class GameRunner
+internal sealed class GameRunner(Board board)
 {
-    private readonly Board board;
-
-    public GameRunner(Board board) => this.board = board;
-
     public void Run(BoardRenderer renderer, int numberOfIterations)
     {
         var workingBoard = board;

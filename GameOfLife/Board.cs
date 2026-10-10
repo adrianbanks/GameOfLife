@@ -5,16 +5,9 @@ using static adrianbanks.GameOfLife.GridNavigation;
 
 namespace adrianbanks.GameOfLife;
 
-internal sealed class Board
+internal sealed class Board(Dimension dimension, params Coordinate[] liveCells)
 {
-    private readonly Dimension dimension;
-    private readonly HashSet<Coordinate> liveCells;
-
-    public Board(Dimension dimension, params Coordinate[] liveCells)
-    {
-        this.dimension = dimension;
-        this.liveCells = new HashSet<Coordinate>(liveCells);
-    }
+    private readonly HashSet<Coordinate> _liveCells = [.. liveCells];
 
     public Board NextIteration()
     {
@@ -22,7 +15,7 @@ internal sealed class Board
 
         foreach (var cell in AllCells(dimension))
         {
-            var neighbourhood = new Neighbourhood(liveCells, cell);
+            var neighbourhood = new Neighbourhood(_liveCells, cell);
             var nextGenerationCells = neighbourhood.NextGenerationCells();
             nextGeneration.AddRange(nextGenerationCells);
         }
@@ -32,13 +25,13 @@ internal sealed class Board
 
     public void Render(IBoardRenderer renderer)
     {
-        var cellsWithinBounds = liveCells.Where(dimension.Contains);
+        var cellsWithinBounds = _liveCells.Where(dimension.Contains);
         renderer.Render(dimension, cellsWithinBounds);
     }
 
     public Board WithNewSize(int? width, int? height)
     {
         var size = Dimension.Create(dimension, width, height);
-        return new(size, liveCells.ToArray());
+        return new(size, _liveCells.ToArray());
     }
 }

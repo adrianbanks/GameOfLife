@@ -5,24 +5,19 @@ using static adrianbanks.GameOfLife.GridNavigation;
 
 namespace adrianbanks.GameOfLife.Rendering;
 
-internal interface IBoardRenderer
-{
-    void Render(Dimension dimension, IEnumerable<Coordinate> liveCells);
-}
-
 internal sealed class BoardRenderer : IBoardRenderer
 {
-    private readonly int delay;
-    private readonly Color backColor;
-    private readonly AgedColors colors;
-    private int currentDelay;
+    private readonly int _delay;
+    private readonly Color _backColor;
+    private readonly AgedColors _colors;
+    private int _currentDelay;
 
     public BoardRenderer(int initialDelay, int delay, Color backColor, AgedColors colors)
     {
-        currentDelay = initialDelay;
-        this.delay = delay;
-        this.backColor = backColor;
-        this.colors = colors;
+        _currentDelay = initialDelay;
+        _delay = delay;
+        _backColor = backColor;
+        _colors = colors;
         AnsiConsole.Cursor.Show(false);
         AnsiConsole.Clear();
     }
@@ -35,17 +30,17 @@ internal sealed class BoardRenderer : IBoardRenderer
 
         foreach (var cell in AllCells(dimension))
         {
-            canvas.SetPixel(cell.X, cell.Y, backColor);
+            canvas.SetPixel(cell.X, cell.Y, _backColor);
         }
 
         foreach (var cell in liveCells)
         {
-            var color = colors.GetColor(cell.Age);
+            var color = _colors.GetColor(cell.Age);
             canvas.SetPixel(cell.X, cell.Y, color);
         }
 
         AnsiConsole.Write(canvas);
-        Thread.Sleep(currentDelay);
-        currentDelay = delay;
+        Thread.Sleep(_currentDelay);
+        _currentDelay = _delay;
     }
 }

@@ -6,17 +6,9 @@ using Spectre.Console;
 
 namespace adrianbanks.GameOfLife.Rendering;
 
-internal sealed class ColorPalette
+internal sealed class ColorPalette(string backColor, string baseColor)
 {
-    private readonly string baseColor;
-
-    public Color BackColor { get;  }
-
-    public ColorPalette(string backColor, string baseColor)
-    {
-        BackColor = FindColor(backColor);
-        this.baseColor = baseColor;
-    }
+    public Color BackColor { get; } = FindColor(backColor);
 
     public AgedColors GetColors()
     {
@@ -40,7 +32,13 @@ internal sealed class ColorPalette
             throw new Exception($"Invalid color: {name}");
         }
 
-        var color = (Color) colorProperty.GetValue(null);
-        return color;
+        var value = colorProperty.GetValue(null);
+
+        if (value == null)
+        {
+            throw new Exception($"Invalid color: {name}");
+        }
+
+        return (Color) value;
     }
 }

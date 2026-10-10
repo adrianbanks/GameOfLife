@@ -1,21 +1,13 @@
 namespace adrianbanks.GameOfLife;
 
-internal sealed class Coordinate
+internal sealed class Coordinate(int x, int y)
 {
-    public int X { get; }
-    public int Y { get; }
+    public int X { get; } = x;
+    public int Y { get; } = y;
     public int Age { get; }
 
-    public Coordinate(int x, int y)
+    public Coordinate(Coordinate coordinate) : this(coordinate.X, coordinate.Y)
     {
-        X = x;
-        Y = y;
-    }
-
-    public Coordinate(Coordinate coordinate)
-    {
-        X = coordinate.X;
-        Y = coordinate.Y;
         Age = coordinate.Age + 1;
     }
 

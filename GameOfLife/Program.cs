@@ -1,6 +1,5 @@
 ﻿using System;
 using System.CommandLine.Parsing;
-using System.Linq;
 using adrianbanks.GameOfLife.Boards;
 using adrianbanks.GameOfLife.CommandLine;
 using adrianbanks.GameOfLife.Rendering;
@@ -12,7 +11,7 @@ internal static class Program
 {
     internal static int Main(string[] args)
     {
-        return args.Any()
+        return args.Length != 0
             ? CommandFactory.Parse(RunGame, PatternList.Show, ColorList.Show, OnError).Invoke(args)
             : ConsoleMenu.Show(RunGame);
     }
