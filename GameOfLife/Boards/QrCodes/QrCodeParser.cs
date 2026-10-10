@@ -20,11 +20,8 @@ internal sealed class QrCodeParser
         var bitmap = new BinaryBitmap(binarizer);
         var result = new ZXing.QrCode.Internal.Detector(bitmap.BlackMatrix).detect();
 
-        if (result == null)
-        {
-            throw new Exception($"Could not find QR code in '{path}'");
-        }
-
-        return result.Bits;
+        return result == null
+            ? throw new Exception($"Could not find QR code in '{path}'")
+            : result.Bits;
     }
 }
