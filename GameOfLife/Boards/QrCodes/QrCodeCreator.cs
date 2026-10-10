@@ -12,9 +12,9 @@ internal sealed class QrCodeCreator
         var encoder = new MultiFormatWriter();
         var hints = new Dictionary<EncodeHintType, object>
         {
-            { EncodeHintType.WIDTH, size.Width},
-            { EncodeHintType.HEIGHT, size.Height},
-            { EncodeHintType.MARGIN, 0}
+            { EncodeHintType.WIDTH, size.Width },
+            { EncodeHintType.HEIGHT, size.Height },
+            { EncodeHintType.MARGIN, 0 }
         };
         var matrix = encoder.encode(text, BarcodeFormat.QR_CODE, size.Width, size.Height, hints);
 
