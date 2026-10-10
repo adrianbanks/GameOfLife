@@ -2,6 +2,7 @@
 using System.Drawing;
 using ZXing;
 using ZXing.Common;
+using ZXing.Windows.Compatibility;
 
 namespace adrianbanks.GameOfLife.Boards.QrCodes;
 
