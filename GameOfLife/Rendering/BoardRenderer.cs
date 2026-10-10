@@ -3,50 +3,49 @@ using System.Threading;
 using Spectre.Console;
 using static adrianbanks.GameOfLife.GridNavigation;
 
-namespace adrianbanks.GameOfLife.Rendering
+namespace adrianbanks.GameOfLife.Rendering;
+
+internal interface IBoardRenderer
 {
-    internal interface IBoardRenderer
+    void Render(Dimension dimension, IEnumerable<Coordinate> liveCells);
+}
+
+internal sealed class BoardRenderer : IBoardRenderer
+{
+    private readonly int delay;
+    private readonly Color backColor;
+    private readonly AgedColors colors;
+    private int currentDelay;
+
+    public BoardRenderer(int initialDelay, int delay, Color backColor, AgedColors colors)
     {
-        void Render(Dimension dimension, IEnumerable<Coordinate> liveCells);
+        currentDelay = initialDelay;
+        this.delay = delay;
+        this.backColor = backColor;
+        this.colors = colors;
+        AnsiConsole.Cursor.Show(false);
+        AnsiConsole.Clear();
     }
 
-    internal sealed class BoardRenderer : IBoardRenderer
+    public void Render(Dimension dimension, IEnumerable<Coordinate> liveCells)
     {
-        private readonly int delay;
-        private readonly Color backColor;
-        private readonly AgedColors colors;
-        private int currentDelay;
+        AnsiConsole.Cursor.SetPosition(0, 0);
 
-        public BoardRenderer(int initialDelay, int delay, Color backColor, AgedColors colors)
+        var canvas = new Canvas(dimension.Width, dimension.Height);
+
+        foreach (var cell in AllCells(dimension))
         {
-            currentDelay = initialDelay;
-            this.delay = delay;
-            this.backColor = backColor;
-            this.colors = colors;
-            AnsiConsole.Cursor.Show(false);
-            AnsiConsole.Clear();
+            canvas.SetPixel(cell.X, cell.Y, backColor);
         }
 
-        public void Render(Dimension dimension, IEnumerable<Coordinate> liveCells)
+        foreach (var cell in liveCells)
         {
-            AnsiConsole.Cursor.SetPosition(0, 0);
-
-            var canvas = new Canvas(dimension.Width, dimension.Height);
-
-            foreach (var cell in AllCells(dimension))
-            {
-                canvas.SetPixel(cell.X, cell.Y, backColor);
-            }
-
-            foreach (var cell in liveCells)
-            {
-                var color = colors.GetColor(cell.Age);
-                canvas.SetPixel(cell.X, cell.Y, color);
-            }
-
-            AnsiConsole.Write(canvas);
-            Thread.Sleep(currentDelay);
-            currentDelay = delay;
+            var color = colors.GetColor(cell.Age);
+            canvas.SetPixel(cell.X, cell.Y, color);
         }
+
+        AnsiConsole.Write(canvas);
+        Thread.Sleep(currentDelay);
+        currentDelay = delay;
     }
 }

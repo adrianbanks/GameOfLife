@@ -1,22 +1,21 @@
 ﻿using adrianbanks.GameOfLife.Rendering;
 
-namespace adrianbanks.GameOfLife
+namespace adrianbanks.GameOfLife;
+
+internal sealed class GameRunner
 {
-    internal sealed class GameRunner
+    private readonly Board board;
+
+    public GameRunner(Board board) => this.board = board;
+
+    public void Run(BoardRenderer renderer, int numberOfIterations)
     {
-        private readonly Board board;
+        var workingBoard = board;
 
-        public GameRunner(Board board) => this.board = board;
-
-        public void Run(BoardRenderer renderer, int numberOfIterations)
+        for (var i = 0; i < numberOfIterations; i++)
         {
-            var workingBoard = board;
-
-            for (var i = 0; i < numberOfIterations; i++)
-            {
-                workingBoard.Render(renderer);
-                workingBoard = workingBoard.NextIteration();
-            }
+            workingBoard.Render(renderer);
+            workingBoard = workingBoard.NextIteration();
         }
     }
 }

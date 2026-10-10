@@ -2,53 +2,52 @@
 using System.IO;
 using adrianbanks.GameOfLife.Boards.QrCodes;
 
-namespace adrianbanks.GameOfLife.Boards
-{
-    internal sealed class BoardFactory
-    {
-        private readonly string pattern;
-        private readonly string qrCode;
+namespace adrianbanks.GameOfLife.Boards;
 
-        public BoardFactory(string pattern, string qrCode)
+internal sealed class BoardFactory
+{
+    private readonly string pattern;
+    private readonly string qrCode;
+
+    public BoardFactory(string pattern, string qrCode)
+    {
+        this.pattern = pattern;
+        this.qrCode = qrCode;
+    }
+
+    public Board Create(int? width, int? height)
+    {
+        if (pattern == null && qrCode == null)
         {
-            this.pattern = pattern;
-            this.qrCode = qrCode;
+            var dimension = Dimension.Create(width, height);
+            return new RandomBoard().Generate(dimension);
         }
 
-        public Board Create(int? width, int? height)
+        if (pattern != null && qrCode == null)
         {
-            if (pattern == null && qrCode == null)
-            {
-                var dimension = Dimension.Create(width, height);
-                return new RandomBoard().Generate(dimension);
-            }
+            var board = KnownPatterns.Get(pattern);
+            return board.WithNewSize(width, height);
+        }
 
-            if (pattern != null && qrCode == null)
+        if (pattern == null && qrCode != null)
+        {
+            if (qrCode.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
             {
-                var board = KnownPatterns.Get(pattern);
+                using var image = new UrlImageLoader().Load(qrCode);
+                var board = new QrCodeParser().Parse(qrCode, image);
                 return board.WithNewSize(width, height);
             }
 
-            if (pattern == null && qrCode != null)
+            if (File.Exists(qrCode))
             {
-                if (qrCode.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    using var image = new UrlImageLoader().Load(qrCode);
-                    var board = new QrCodeParser().Parse(qrCode, image);
-                    return board.WithNewSize(width, height);
-                }
-
-                if (File.Exists(qrCode))
-                {
-                    using var image = new FileImageLoader().Load(qrCode);
-                    var board = new QrCodeParser().Parse(qrCode, image);
-                    return board.WithNewSize(width, height);
-                }
-
-                return new QrCodeCreator().Create(qrCode, width, height);
+                using var image = new FileImageLoader().Load(qrCode);
+                var board = new QrCodeParser().Parse(qrCode, image);
+                return board.WithNewSize(width, height);
             }
 
-            throw new Exception("Cannot set both a pattern and a QR code at the same time");
+            return new QrCodeCreator().Create(qrCode, width, height);
         }
+
+        throw new Exception("Cannot set both a pattern and a QR code at the same time");
     }
 }

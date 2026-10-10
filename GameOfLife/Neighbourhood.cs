@@ -2,32 +2,31 @@ using System.Collections.Generic;
 using System.Linq;
 using static adrianbanks.GameOfLife.GridNavigation;
 
-namespace adrianbanks.GameOfLife
+namespace adrianbanks.GameOfLife;
+
+internal sealed class Neighbourhood
 {
-    internal sealed class Neighbourhood
+    private readonly HashSet<Coordinate> liveCells;
+    private readonly Coordinate center;
+    private readonly bool currentCellIsAlive;
+
+    public Neighbourhood(HashSet<Coordinate> liveCells, Coordinate center)
     {
-        private readonly HashSet<Coordinate> liveCells;
-        private readonly Coordinate center;
-        private readonly bool currentCellIsAlive;
+        this.liveCells = liveCells;
+        this.center = center;
+        currentCellIsAlive = liveCells.Contains(center);
+    }
 
-        public Neighbourhood(HashSet<Coordinate> liveCells, Coordinate center)
+    public IEnumerable<Coordinate> NextGenerationCells()
+    {
+        var numberOfLiveNeighbours = SurroundingCells(center).Count(liveCells.Contains);
+        var originalCell = liveCells.SingleOrDefault(c => c.Equals(center));
+
+        return numberOfLiveNeighbours switch
         {
-            this.liveCells = liveCells;
-            this.center = center;
-            currentCellIsAlive = liveCells.Contains(center);
-        }
-
-        public IEnumerable<Coordinate> NextGenerationCells()
-        {
-            var numberOfLiveNeighbours = SurroundingCells(center).Count(liveCells.Contains);
-            var originalCell = liveCells.SingleOrDefault(c => c.Equals(center));
-
-            return numberOfLiveNeighbours switch
-            {
-                2 or 3 when currentCellIsAlive => new[] { new Coordinate(originalCell) },
-                3 when !currentCellIsAlive => new[] { center },
-                _ => Enumerable.Empty<Coordinate>()
-            };
-        }
+            2 or 3 when currentCellIsAlive => new[] { new Coordinate(originalCell) },
+            3 when !currentCellIsAlive => new[] { center },
+            _ => Enumerable.Empty<Coordinate>()
+        };
     }
 }

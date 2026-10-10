@@ -3,43 +3,42 @@ using System.Linq;
 using adrianbanks.GameOfLife.Rendering;
 using static adrianbanks.GameOfLife.GridNavigation;
 
-namespace adrianbanks.GameOfLife
+namespace adrianbanks.GameOfLife;
+
+internal sealed class Board
 {
-    internal sealed class Board
+    private readonly Dimension dimension;
+    private readonly HashSet<Coordinate> liveCells;
+
+    public Board(Dimension dimension, params Coordinate[] liveCells)
     {
-        private readonly Dimension dimension;
-        private readonly HashSet<Coordinate> liveCells;
+        this.dimension = dimension;
+        this.liveCells = new HashSet<Coordinate>(liveCells);
+    }
 
-        public Board(Dimension dimension, params Coordinate[] liveCells)
+    public Board NextIteration()
+    {
+        var nextGeneration = new List<Coordinate>();
+
+        foreach (var cell in AllCells(dimension))
         {
-            this.dimension = dimension;
-            this.liveCells = new HashSet<Coordinate>(liveCells);
+            var neighbourhood = new Neighbourhood(liveCells, cell);
+            var nextGenerationCells = neighbourhood.NextGenerationCells();
+            nextGeneration.AddRange(nextGenerationCells);
         }
 
-        public Board NextIteration()
-        {
-            var nextGeneration = new List<Coordinate>();
+        return new Board(dimension, nextGeneration.ToArray());
+    }
 
-            foreach (var cell in AllCells(dimension))
-            {
-                var neighbourhood = new Neighbourhood(liveCells, cell);
-                var nextGenerationCells = neighbourhood.NextGenerationCells();
-                nextGeneration.AddRange(nextGenerationCells);
-            }
+    public void Render(IBoardRenderer renderer)
+    {
+        var cellsWithinBounds = liveCells.Where(dimension.Contains);
+        renderer.Render(dimension, cellsWithinBounds);
+    }
 
-            return new Board(dimension, nextGeneration.ToArray());
-        }
-
-        public void Render(IBoardRenderer renderer)
-        {
-            var cellsWithinBounds = liveCells.Where(dimension.Contains);
-            renderer.Render(dimension, cellsWithinBounds);
-        }
-
-        public Board WithNewSize(int? width, int? height)
-        {
-            var size = Dimension.Create(dimension, width, height);
-            return new(size, liveCells.ToArray());
-        }
+    public Board WithNewSize(int? width, int? height)
+    {
+        var size = Dimension.Create(dimension, width, height);
+        return new(size, liveCells.ToArray());
     }
 }
