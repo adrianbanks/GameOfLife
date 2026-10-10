@@ -21,11 +21,11 @@ internal sealed class RunCommand : Command
             var args = new Args(
                 result.GetValue(_width),
                 result.GetValue(_height),
-                result.GetValue(_iterations),
-                result.GetValue(_initialDelay),
-                result.GetValue(_delay),
-                result.GetValue(_backColor),
-                result.GetValue(_baseColor),
+                result.GetRequiredValue(_iterations),
+                result.GetRequiredValue(_initialDelay),
+                result.GetRequiredValue(_delay),
+                result.GetRequiredValue(_backColor),
+                result.GetRequiredValue(_baseColor),
                 result.GetValue(_pattern),
                 result.GetValue(_qrCode));
             GameHost.Run(args);

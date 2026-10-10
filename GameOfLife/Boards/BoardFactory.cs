@@ -4,7 +4,7 @@ using adrianbanks.GameOfLife.Boards.QrCodes;
 
 namespace adrianbanks.GameOfLife.Boards;
 
-internal sealed class BoardFactory(string pattern, string qrCode)
+internal sealed class BoardFactory(string? pattern, string? qrCode)
 {
     public Board Create(int? width, int? height)
     {

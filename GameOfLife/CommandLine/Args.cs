@@ -8,8 +8,8 @@ internal sealed class Args(
     int delay,
     string baseColor,
     string backColor,
-    string pattern,
-    string qrCode)
+    string? pattern,
+    string? qrCode)
 {
     public int? Width => width;
 
@@ -25,7 +25,7 @@ internal sealed class Args(
 
     public string BackColor => backColor;
 
-    public string Pattern => pattern;
+    public string? Pattern => pattern;
 
-    public string QrCode => qrCode;
+    public string? QrCode => qrCode;
 }

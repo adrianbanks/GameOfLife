@@ -11,11 +11,10 @@ internal sealed class Neighbourhood(HashSet<Coordinate> liveCells, Coordinate ce
     public IEnumerable<Coordinate> NextGenerationCells()
     {
         var numberOfLiveNeighbours = SurroundingCells(center).Count(liveCells.Contains);
-        var originalCell = liveCells.SingleOrDefault(c => c.Equals(center));
 
         return numberOfLiveNeighbours switch
         {
-            2 or 3 when _currentCellIsAlive => [new Coordinate(originalCell)],
+            2 or 3 when _currentCellIsAlive => [new Coordinate(liveCells.Single(c => c.Equals(center)))],
             3 when !_currentCellIsAlive => [center],
             _ => []
         };

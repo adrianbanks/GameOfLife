@@ -12,7 +12,7 @@ internal static class PatternList
         var groupedPatterns = KnownPatterns.GetAllNames();
 
         var table = new Table();
-        table.AddColumns(groupedPatterns.Keys.ToArray());
+        table.AddColumns([.. groupedPatterns.Keys]);
 
         var numberOfRows = groupedPatterns.Max(g => g.Value.Count);
 
@@ -26,7 +26,7 @@ internal static class PatternList
                 itemsInRow.Add(patternsInCategory.TryPop(out var pattern) ? pattern : string.Empty);
             }
 
-            table.AddRow(itemsInRow.ToArray());
+            table.AddRow([.. itemsInRow]);
         }
 
         AnsiConsole.Write(table);

@@ -1,68 +1,46 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 
 namespace adrianbanks.GameOfLife.Boards;
 
 internal static class KnownPatterns
 {
-    public static IDictionary<string, Stack<string>> GetAllNames()
-    {
-        var groupedPatterns = new Dictionary<string, Stack<string>>();
-        var nestedTypes = typeof(KnownPatterns).GetNestedTypes(BindingFlags.NonPublic).Where(t => !t.Name.Contains("<"));
-
-        foreach (var categoryType in nestedTypes)
+    public static IDictionary<string, Stack<string>> GetAllNames() =>
+        new Dictionary<string, Stack<string>>
         {
-            var fields = categoryType.GetFields(BindingFlags.Static | BindingFlags.Public);
-
-            foreach (var field in fields.OrderByDescending(f => f.Name))
-            {
-                if (!groupedPatterns.TryGetValue(categoryType.Name, out var patterns))
-                {
-                    patterns = new Stack<string>();
-                    groupedPatterns.Add(categoryType.Name, patterns);
-                }
-
-                patterns.Push(field.Name);
-            }
-        }
-
-        return groupedPatterns;
-    }
+            { "StillLifes", new Stack<string>(["Block", "BeeHive", "Loaf", "Boat", "Tub"]) },
+            { "Oscillators", new Stack<string>(["Blinker", "Toad", "Beacon", "Pulsar", "PentaDecathlon"]) },
+            { "Spaceships", new Stack<string>(["Glider", "Lightweight", "Middleweight", "Heavyweight"]) },
+            { "Guns", new Stack<string>(["GosperGliderGun"]) }
+        };
 
     public static Board Get(string name)
     {
         var patterns = GetAllPatterns();
-
-        if (patterns.TryGetValue(name, out var pattern))
-        {
-            return pattern();
-        }
-
-        throw new Exception($"Invalid pattern: '{name}'");
+        return patterns.TryGetValue(name, out var pattern)
+            ? pattern()
+            : throw new Exception($"Invalid pattern: '{name}'");
     }
 
-    private static Dictionary<string, Func<Board>> GetAllPatterns()
-    {
-        var patterns = new Dictionary<string, Func<Board>>(StringComparer.InvariantCultureIgnoreCase);
-        var nestedTypes = typeof(KnownPatterns).GetNestedTypes(BindingFlags.NonPublic).Where(t => !t.Name.Contains("<"));
-
-        foreach (var nestedType in nestedTypes)
+    private static Dictionary<string, Func<Board>> GetAllPatterns() =>
+        new(StringComparer.InvariantCultureIgnoreCase)
         {
-            var fields = nestedType.GetFields(BindingFlags.Static | BindingFlags.Public);
-
-            foreach (var field in fields)
-            {
-                var pattern = field.Name;
-                Board GetBoard() => (Board) field.GetValue(null);
-                patterns.Add(pattern, GetBoard);
-                patterns.Add($"{nestedType.Name}.{pattern}", GetBoard);
-            }
-        }
-
-        return patterns;
-    }
+            { "Block", () => StillLifes.Block },
+            { "BeeHive", () => StillLifes.BeeHive },
+            { "Loaf", () => StillLifes.Loaf },
+            { "Boat", () => StillLifes.Boat },
+            { "Tub", () => StillLifes.Tub },
+            { "Blinker", () => Oscillators.Blinker },
+            { "Toad", () => Oscillators.Toad },
+            { "Beacon", () => Oscillators.Beacon },
+            { "Pulsar", () => Oscillators.Pulsar },
+            { "PentaDecathlon", () => Oscillators.PentaDecathlon },
+            { "Glider", () => Spaceships.Glider },
+            { "Lightweight", () => Spaceships.Lightweight },
+            { "Middleweight", () => Spaceships.Middleweight },
+            { "Heavyweight", () => Spaceships.Heavyweight },
+            { "GosperGliderGun", () => Guns.GosperGliderGun }
+        };
 
     private static class StillLifes
     {
@@ -115,14 +93,14 @@ internal static class KnownPatterns
 
     private static class Oscillators
     {
-        public static Board Blinker = new(
+        public static readonly Board Blinker = new(
             new Dimension(5, 5),
             new Coordinate(2, 1),
             new Coordinate(2, 2),
             new Coordinate(2, 3)
         );
 
-        public static Board Toad = new(
+        public static readonly Board Toad = new(
             new Dimension(6, 6),
             new Coordinate(2, 2),
             new Coordinate(3, 2),
@@ -132,7 +110,7 @@ internal static class KnownPatterns
             new Coordinate(3, 3)
         );
 
-        public static Board Beacon = new(
+        public static readonly Board Beacon = new(
             new Dimension(6, 6),
             new Coordinate(1, 1),
             new Coordinate(2, 1),
@@ -142,7 +120,7 @@ internal static class KnownPatterns
             new Coordinate(4, 4)
         );
 
-        public static Board Pulsar = new(
+        public static readonly Board Pulsar = new(
             new Dimension(17, 17),
             new Coordinate(4, 2),
             new Coordinate(5, 2),
@@ -194,7 +172,7 @@ internal static class KnownPatterns
             new Coordinate(12, 14)
         );
 
-        public static Board PentaDecathlon = new(
+        public static readonly Board PentaDecathlon = new(
             new Dimension(10, 17),
             new Coordinate(5, 2),
             new Coordinate(4, 3),

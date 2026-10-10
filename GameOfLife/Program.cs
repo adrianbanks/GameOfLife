@@ -1,5 +1,4 @@
 ﻿using System;
-using System.CommandLine;
 using System.Linq;
 using adrianbanks.GameOfLife.CommandLine;
 using Spectre.Console;
@@ -23,17 +22,16 @@ internal static class Program
     private static void RunGame(string[] args)
     {
         var command = new GameOfLifeCommand();
-        ParseResult result = null;
+        var result = command.Parse(args);
 
         try
         {
-            result = command.Parse(args);
             result.InvocationConfiguration.EnableDefaultExceptionHandler = false;
             result.Invoke();
         }
         catch (Exception exception)
         {
-            var showStackTrace = result?.Tokens.Any(t => t.Value == "[stacktrace]") ?? false;
+            var showStackTrace = result.Tokens.Any(t => t.Value == "[stacktrace]");
 
             if (showStackTrace)
             {

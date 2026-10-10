@@ -11,11 +11,11 @@ internal sealed class Coordinate(int x, int y)
         Age = coordinate.Age + 1;
     }
 
-    public override bool Equals(object obj) => Equals(this, obj as Coordinate);
+    public override bool Equals(object? obj) => Equals(this, obj as Coordinate);
 
     public override int GetHashCode() => X + Y;
 
-    private static bool Equals(Coordinate x, Coordinate y)
+    private static bool Equals(Coordinate? x, Coordinate? y)
     {
         if (ReferenceEquals(x, y))
         {

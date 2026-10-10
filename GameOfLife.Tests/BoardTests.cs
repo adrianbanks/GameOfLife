@@ -78,8 +78,8 @@ public sealed class BoardTests
 
     private sealed class RenderingSpy : IBoardRenderer
     {
-        public Dimension BoardSize { get; private set; }
-        public IEnumerable<Coordinate> LiveCells { get; private set; }
+        public Dimension BoardSize { get; private set; } = new(0, 0);
+        public IEnumerable<Coordinate> LiveCells { get; private set; } = [];
 
         public void Render(Dimension dimension, IEnumerable<Coordinate> liveCells)
         {
