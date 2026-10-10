@@ -1,16 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <AssemblyName>GameOfLife.Tests</AssemblyName>
-        <RootNamespace>adrianbanks.GameOfLife.Tests</RootNamespace>
-        <TargetFramework>net10.0-windows</TargetFramework>
-        <IsPackable>false</IsPackable>
-    </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyName>GameOfLife.Tests</AssemblyName>
+    <RootNamespace>adrianbanks.GameOfLife.Tests</RootNamespace>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+    
+  <ItemGroup>
+    <PackageReference Include="NUnit" Version="5.0.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="6.3.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
+  </ItemGroup>
+  
     <ItemGroup>
-        <PackageReference Include="NUnit" Version="5.0.0" />
-        <PackageReference Include="NUnit3TestAdapter" Version="6.3.1" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
-    </ItemGroup>
-    <ItemGroup>
-      <ProjectReference Include="..\GameOfLife\GameOfLife.csproj" />
-    </ItemGroup>
+    <ProjectReference Include="..\GameOfLife\GameOfLife.csproj" />
+  </ItemGroup>
 </Project>
