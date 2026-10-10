@@ -1,14 +1,31 @@
 namespace adrianbanks.GameOfLife.CommandLine;
 
-internal sealed class Args
+internal sealed class Args(
+    int? width,
+    int? height,
+    int iterations,
+    int initialDelay,
+    int delay,
+    string baseColor,
+    string backColor,
+    string pattern,
+    string qrCode)
 {
-    public int Iterations { get; set; }
-    public int InitialDelay { get; set; }
-    public int Delay { get; set; }
-    public int? Width { get; set; }
-    public int? Height { get; set; }
-    public string BaseColor { get; set; }
-    public string BackColor { get; set; }
-    public string Pattern { get; set; }
-    public string QrCode { get; set; }
+    public int? Width => width;
+
+    public int? Height => height;
+
+    public int Iterations => iterations;
+
+    public int InitialDelay => initialDelay;
+
+    public int Delay => delay;
+
+    public string BaseColor => baseColor;
+
+    public string BackColor => backColor;
+
+    public string Pattern => pattern;
+
+    public string QrCode => qrCode;
 }

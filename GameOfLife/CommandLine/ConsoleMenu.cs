@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using adrianbanks.GameOfLife.Rendering;
 using Spectre.Console;
 
@@ -7,7 +6,7 @@ namespace adrianbanks.GameOfLife.CommandLine;
 
 internal static class ConsoleMenu
 {
-    public static int Show(Action<Args> runGame)
+    public static void Show()
     {
         const string runTheGame = "Run the game";
         const string showAvailablePatterns = "Show available known patterns";
@@ -22,7 +21,7 @@ internal static class ConsoleMenu
         {
             case runTheGame:
                 var args = GetGameArguments();
-                runGame(args);
+                GameHost.Run(args);
                 break;
             case showAvailablePatterns:
                 PatternList.Show();
@@ -31,8 +30,6 @@ internal static class ConsoleMenu
                 ColorList.Show();
                 break;
         }
-
-        return 0;
     }
 
     private static Args GetGameArguments()
@@ -47,16 +44,16 @@ internal static class ConsoleMenu
         var delay = GetInteger("Time between iterations (ms)", Defaults.Delay);
         var iterations = GetInteger("Number of iterations to perform", Defaults.Iterations);
 
-        return new Args
-        {
-            Width = width,
-            Height = height,
-            BackColor = backgroundColor,
-            BaseColor = baseColor,
-            InitialDelay = initialDelay,
-            Delay = delay,
-            Iterations = iterations
-        };
+        return new Args(
+            width,
+            height,
+            iterations,
+            initialDelay,
+            delay,
+            baseColor,
+            backgroundColor,
+            null,
+            null);
     }
 
     private static int GetInteger(string prompt, int defaultValue)
